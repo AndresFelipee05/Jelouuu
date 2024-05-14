@@ -1,0 +1,55 @@
+<!DOCTYPE html EnseñarUsuarioYCrearLista>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="boton">Carga Empleado</button>
+    <ol id="lista"></ol>
+    <script>
+        document.getElementById("boton").onclick = cargaEmpleado;
+
+        function cargaEmpleado() {
+            fetch('datos.json')
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('No se pudo cargar el archivo JSON.');
+                    }
+                    return response.json(); // Convertimos la respuesta a JSON
+                })
+                .then(function(data) {
+                    // La variable "data" ahora contiene el objeto JavaScript
+                    //console.log(data);
+
+                    // Accedemos a las propiedades del objeto y creamos un elemento de lista para cada uno
+                    let miLista = document.getElementById("lista");
+                    let liNombre = document.createElement("li");
+                    let liEdad = document.createElement("li");
+                    let liCiudad = document.createElement("li");
+
+                    // Asignamos los valores de las propiedades a los elementos de lista
+                    liNombre.textContent = "Nombre: " + data.nombre;
+                    liEdad.textContent = "Edad: " + data.edad;
+                    liCiudad.textContent = "Ciudad: " + data.ciudad;
+
+                    // Agregamos los elementos de lista a la lista ordenada
+                    miLista.appendChild(liNombre);
+                    miLista.appendChild(liEdad);
+                    miLista.appendChild(liCiudad);
+
+                    // Mostramos los valores en alertas
+                    alert("Nombre: " + data.nombre);
+                    alert("Edad: " + data.edad);
+                    alert("Ciudad: " + data.ciudad);
+
+                    // Aquí puedes realizar cualquier operación que necesites con los datos del archivo JSON
+                })
+                .catch(function(error) {
+                    console.error('Se produjo un error al cargar el archivo JSON:', error);
+                });
+        }
+    </script>
+</body>
+</html>
